@@ -1,0 +1,2 @@
+To interact with the database, a model must be created for each resource (routes/api).
+to create a model one needs a schema, which holds the fields we want for the resource in question.
