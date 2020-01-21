@@ -6,10 +6,14 @@ const app = express();
 // connect to database, through mongoose
 connectDB();
 
+// Init middleware. (enables one to access the req.body => object data
+//sent to the requested route(i.e " routes/api/.."))
+app.use(express.json({ extended: false }));
+
 // end points
 app.get('/', (req, res) => {
-    res.send('API running');
-})
+  res.send('API running');
+});
 
 // Define routes
 app.use('/api/users', require('./routes/api/users'));
@@ -20,7 +24,7 @@ app.use('/api/profile', require('./routes/api/profile'));
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`(express) Server started on port ${PORT}`)
-})
+  console.log(`[(express)] Server started on port ${PORT}`);
+});
 
-//"mongodb://localhost/nameofdb" 
+//"mongodb://localhost/nameofdb"

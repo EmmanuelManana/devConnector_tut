@@ -1,2 +1,19 @@
-To interact with the database, a model must be created for each resource (routes/api).
-to create a model one needs a schema, which holds the fields we want for the resource in question.
+To interact with the database, 
+a model must be created for each resource (routes/api).
+to create a model one needs a schema,
+ which holds the fields we want for the resource in question.
+
+ for (req.body) to work,one needs to init the middleware bodyParser.
+ [data is sent to an end point(route), and is accessed using req.body]
+
+
+ // explaining the purpose fo each dependence;
+
+
+ //read the documentaions of "express-validator";
+ 
+
+ // to remember when creating my own mongoose
+        => add/push collection (if not exist add user)
+        => get/fetch collection (by userID/email)
+        => delete collection (if exist delete user)

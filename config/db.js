@@ -6,19 +6,20 @@ const db = config.get('mongoURI');
 
 //establic the connectio to the db
 const connectDB = async () => {
-    try {
-        //return a promise to the connection
-        await mongoose.connect(db, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+  try {
+    //return a promise to the connection
+    await mongoose.connect(db, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true
+    });
 
-        console.log('Connected to MongoDB :)')
-    } catch (err) {
-        console.error(err.message);
-        //Exit proccess with failure, upon connectin fail
-        process.exit(1);
-    }
-}
+    console.log('[(mongodb)] Connected to MongoDB :)');
+  } catch (err) {
+    console.error(err.message);
+    //Exit proccess with failure, upon connectin fail
+    process.exit(1);
+  }
+};
 
 module.exports = connectDB;
