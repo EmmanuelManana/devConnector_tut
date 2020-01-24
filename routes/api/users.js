@@ -3,6 +3,8 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const gravatar = require('gravatar');
 const bcrytpt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 //bring User model(the Schema).
 const User = require('../../models/User');
@@ -38,7 +40,6 @@ router.post(
           .status(400)
           .json({ erros: [{ msg: 'User already exits ' }] });
       }
-
       // Get users Gravatar, link user profile using an email address
       const avatar = gravatar.url(email, {
         s: '200',
@@ -59,9 +60,24 @@ router.post(
 
       //save user to the(register user into the database)
       await user.save();
+      // res.send('user registered');
 
-      // Return jsonwebtoken
-      res.send('user registered');
+      // Return jsonwebtoken, to authenticate and access protected routes  header.payload.signature
+      const payload = {
+        user: {
+          id: user.id
+        }
+      };
+
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
