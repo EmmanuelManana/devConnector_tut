@@ -17,3 +17,7 @@ to create a model one needs a schema,
         => add/push collection (if not exist add user)
         => get/fetch collection (by userID/email)
         => delete collection (if exist delete user)
+
+//jwt for user authentication, then permit (user) private routes.
+
+//middleware theory
