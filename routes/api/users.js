@@ -9,6 +9,16 @@ const config = require('config');
 //bring User model(the Schema).
 const User = require('../../models/User');
 
+function nameC(nameCheck) {
+  var letters = /^[A-Za-z]+$/;
+
+  if (nameCheck.value.match(letters)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 //@route    POST api/users
 //@desc     Register user
 //@access   Public
@@ -19,6 +29,7 @@ router.post(
     check('name', 'name is empty')
       .not()
       .isEmpty(),
+
     check('email', 'email is invalid').isEmail(),
     check('password', 'password must exceed 5 characters').isLength({ min: 5 })
   ],
@@ -31,9 +42,13 @@ router.post(
     }
 
     const { name, email, password } = req.body;
+    if (nameC(name)) {
+      console.log('the name is invalid');
+      //add to the database.
+    }
 
     try {
-      //  check user exists
+      //  check (db) user exists
       let user = await User.findOne({ email });
       if (user) {
         return res
@@ -58,11 +73,17 @@ router.post(
       const salt = await bcrytpt.genSalt(10);
       user.password = await bcrytpt.hash(password, salt);
 
+      if (!nameC(name)){
+        
+
+      }
+
+
       //save user to the(register user into the database)
       await user.save();
       // res.send('user registered');
 
-      // Return jsonwebtoken, to authenticate and access protected routes  header.payload.signature
+      // Return jsonwebtoken, to authenticate,permit user access protected routes  header.payload.signature
       const payload = {
         user: {
           id: user.id
@@ -86,4 +107,3 @@ router.post(
 );
 
 module.exports = router;
- 

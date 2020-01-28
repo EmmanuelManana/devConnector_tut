@@ -21,3 +21,16 @@ to create a model one needs a schema,
 //jwt for user authentication, then permit (user) private routes.
 
 //middleware theory
+
+
+function name(name){
+
+  var letters = /^[A-Za-z]+$/;
+
+  if (name.value.match(letters)){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
