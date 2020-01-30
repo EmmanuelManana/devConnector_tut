@@ -34,3 +34,6 @@ function name(name){
     return false;
   }
 }
+
+//rea vaya routes, T3 and C5.
+

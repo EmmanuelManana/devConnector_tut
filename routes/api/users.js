@@ -5,34 +5,26 @@ const gravatar = require('gravatar');
 const bcrytpt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const nameV = require('../../middleware/validateUser');
 
 //bring User model(the Schema).
 const User = require('../../models/User');
-
-function nameC(nameCheck) {
-  var letters = /^[A-Za-z]+$/;
-
-  if (nameCheck.value.match(letters)) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 //@route    POST api/users
 //@desc     Register user
 //@access   Public
 router.post(
   '/',
-  [
-    //express-check
-    check('name', 'name is empty')
-      .not()
-      .isEmpty(),
+  nameV,
+  // [
+  //   //express-check
+  //   check('name', 'name is empty')
+  //     .not()
+  //     .isEmpty(),
 
-    check('email', 'email is invalid').isEmail(),
-    check('password', 'password must exceed 5 characters').isLength({ min: 5 })
-  ],
+  //   check('email', 'email is invalid').isEmail(),
+  //   check('password', 'password must exceed 5 characters').isLength({ min: 5 })
+  // ],
   async (req, res) => {
     //check for errors in the request.
     let errors = validationResult(req);
@@ -42,10 +34,10 @@ router.post(
     }
 
     const { name, email, password } = req.body;
-    if (nameC(name)) {
-      console.log('the name is invalid');
-      //add to the database.
-    }
+    // if (nameC(name)) {
+    //   console.log('the name is invalid');
+    //   //add to the database.
+    // }
 
     try {
       //  check (db) user exists
@@ -72,12 +64,6 @@ router.post(
       // Encrypt with bcrytpt
       const salt = await bcrytpt.genSalt(10);
       user.password = await bcrytpt.hash(password, salt);
-
-      if (!nameC(name)){
-        
-
-      }
-
 
       //save user to the(register user into the database)
       await user.save();
